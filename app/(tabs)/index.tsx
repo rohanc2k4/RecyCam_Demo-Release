@@ -1,5 +1,5 @@
 import * as React from "react";
-import { SafeAreaView, View } from "react-native";
+import { SafeAreaView, View, StyleSheet } from "react-native";
 import {
   CameraMode,
   CameraView,
@@ -41,34 +41,33 @@ export default function HomeScreen() {
     >
       <CameraView
         ref={cameraRef}
-        style={{ flex: 1 }}
+        style={StyleSheet.absoluteFill}
         facing={cameraFacing}
         mode={cameraMode}
         zoom={cameraZoom}
         enableTorch={cameraTorch}
         onCameraReady={() => console.log("Ready to Scan Item")}
-      >
-        <SafeAreaView style={{ flex: 1 }}>
-          <View style={{ flex: 1, padding: 6 }}>
-            <CameraTools
-              cameraZoom={cameraZoom}
-              //cameraFlash={cameraFlash}
-              cameraTorch={cameraTorch}
-              setCameraZoom={setCameraZoom}
-              setCameraFacing={setCameraFacing}
-              setCameraTorch={setCameraTorch}
-              //setCameraFlash={setCameraFlash}
-            />
-            <MainRowActions
-              isRecording={false}
-              handleTakePicture={
-                cameraMode === "picture" ? handleTakePicture : () => {}
-              }
-              cameraMode={cameraMode}
-            />
-          </View>
-        </SafeAreaView>
-      </CameraView>
+      />
+      <SafeAreaView style={{ flex: 1 }}>
+        <View style={{ flex: 1, padding: 6 }}>
+          <CameraTools
+            cameraZoom={cameraZoom}
+            //cameraFlash={cameraFlash}
+            cameraTorch={cameraTorch}
+            setCameraZoom={setCameraZoom}
+            setCameraFacing={setCameraFacing}
+            setCameraTorch={setCameraTorch}
+            //setCameraFlash={setCameraFlash}
+          />
+          <MainRowActions
+            isRecording={false}
+            handleTakePicture={
+              cameraMode === "picture" ? handleTakePicture : () => {}
+            }
+            cameraMode={cameraMode}
+          />
+        </View>
+      </SafeAreaView>
     </Animated.View>
   );
 }
