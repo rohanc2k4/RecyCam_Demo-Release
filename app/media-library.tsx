@@ -5,6 +5,12 @@ import { Button, ScrollView } from "react-native";
 import { Asset, getAlbumsAsync, getAssetsAsync } from "expo-media-library";
 import { Image } from "expo-image";
 
+// Test images can be added to this array for quick gallery testing
+// Example: require("../assets/images/react-logo.png")
+const testImages = [
+  // Add local images here
+];
+
 export default function MediaLibrary() {
   const [assets, setAssets] = React.useState<Asset[]>([]);
 
@@ -47,6 +53,14 @@ export default function MediaLibrary() {
             ),
           }}
         />
+        {/* Display any test images added above */}
+        {testImages.map((img, index) => (
+          <Image
+            key={`test-${index}`}
+            source={img}
+            style={{ width: "25%", height: 100 }}
+          />
+        ))}
         {assets.map((photo) => (
           <Image
             key={photo.id}

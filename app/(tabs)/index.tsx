@@ -13,6 +13,7 @@ import Animated, {
   LinearTransition,
 } from "react-native-reanimated";
 import CameraTools from "@/components/CameraTools";
+import GalleryButton from "@/components/GalleryButton";
 
 export default function HomeScreen() {
   const cameraRef = React.useRef<CameraView>(null);
@@ -66,6 +67,8 @@ export default function HomeScreen() {
             }
             cameraMode={cameraMode}
           />
+          {/* Access the gallery from the bottom left */}
+          <GalleryButton />
         </View>
       </SafeAreaView>
     </Animated.View>
