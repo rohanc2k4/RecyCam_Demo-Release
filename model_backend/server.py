@@ -7,6 +7,7 @@ import tempfile
 
 app = Flask(__name__)
 
+
 @app.route('/predict', methods=['POST'])
 def predict():
     file = request.files['image']
@@ -20,7 +21,9 @@ def predict():
         os.remove(img_path)
     return jsonify({'result': result})
 
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)
-    model_path = os.path.join(os.path.dirname(__file__), 'recyclable_non_recyclable_classifier.keras')
+    model_path = os.path.join(os.path.dirname(__file__), 
+                              'recyclable_non_recyclable_classifier.keras')
     model = load_model(model_path)

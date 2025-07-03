@@ -1,8 +1,9 @@
-from tensorflow.keras.models import load_model
+# from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 import numpy as np
 from PIL import Image
 import pyheif
+
 
 # Function to convert image to PNG if necessary
 def convert_to_png(img_path):
@@ -26,6 +27,7 @@ def convert_to_png(img_path):
         return png_path
     return img_path
 
+
 # Function to load and preprocess image
 def load_and_preprocess_image(img_path):
     img = Image.open(img_path)
@@ -34,6 +36,7 @@ def load_and_preprocess_image(img_path):
     img_array = np.expand_dims(img_array, axis=0)
     img_array /= 255.0  # Rescale the image
     return img_array
+
 
 # Function to make predictions
 def predict_image_class(model, img_path):
