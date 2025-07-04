@@ -1,6 +1,6 @@
 import * as React from "react";
-import { Link, Stack } from "expo-router";
-import { Button, ScrollView } from "react-native";
+import { Link, Stack, router } from "expo-router";
+import { Button, ScrollView, Pressable } from "react-native";
 
 import { Asset, getAlbumsAsync, getAssetsAsync } from "expo-media-library";
 import { Image } from "expo-image";
@@ -25,7 +25,7 @@ export default function MediaLibrary() {
 
     // Recents album
     const albumAssets = await getAssetsAsync({
-      album: fetchedAlbums.find((album) => album.title === "Recentsd"),
+      album: fetchedAlbums.find((album) => album.title === "Recents"),
       mediaType: "photo",
       sortBy: "creationTime",
     });
@@ -55,21 +55,27 @@ export default function MediaLibrary() {
         />
         {/* Display any test images added above */}
         {testImages.map((img, index) => (
-          <Image
+          <Pressable
             key={`test-${index}`}
-            source={img}
-            style={{ width: "25%", height: 100 }}
-          />
+            onPress={() =>
+              router.replace({ pathname: "/", params: { selected: img } })
+            }
+          >
+            <Image source={img} style={{ width: "25%", height: 100 }} />
+          </Pressable>
         ))}
         {assets.map((photo) => (
-          <Image
+          <Pressable
             key={photo.id}
-            source={photo.uri}
-            style={{
-              width: "25%",
-              height: 100,
-            }}
-          />
+            onPress={() =>
+              router.replace({ pathname: "/", params: { selected: photo.uri } })
+            }
+          >
+            <Image
+              source={photo.uri}
+              style={{ width: "25%", height: 100 }}
+            />
+          </Pressable>
         ))}
       </ScrollView>
     </>
