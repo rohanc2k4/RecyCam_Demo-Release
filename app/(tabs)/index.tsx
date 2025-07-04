@@ -14,6 +14,7 @@ import Animated, {
 } from "react-native-reanimated";
 import CameraTools from "@/components/CameraTools";
 import GalleryButton from "@/components/GalleryButton";
+import { useLocalSearchParams, useRouter } from "expo-router";
 
 export default function HomeScreen() {
   const cameraRef = React.useRef<CameraView>(null);
@@ -24,6 +25,15 @@ export default function HomeScreen() {
   const [cameraZoom, setCameraZoom] = React.useState<number>(0);
   const [picture, setPicture] = React.useState<string>("");
   const [isBrowsing, setIsBrowsing] = React.useState<boolean>(false);
+  const router = useRouter();
+  const params = useLocalSearchParams<{ selected?: string }>();
+
+  React.useEffect(() => {
+    if (params.selected && typeof params.selected === "string") {
+      setPicture(params.selected);
+      router.setParams({ selected: undefined });
+    }
+  }, [params.selected]);
 
   async function handleTakePicture() {
     const response = await cameraRef.current?.takePictureAsync({});
