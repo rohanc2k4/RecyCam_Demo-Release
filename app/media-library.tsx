@@ -2,7 +2,11 @@ import * as React from "react";
 import { Link, Stack, router } from "expo-router";
 import { Button, ScrollView, Pressable } from "react-native";
 
-import { Asset, getAlbumsAsync, getAssetsAsync } from "expo-media-library";
+import {
+  Asset,
+  getAssetsAsync,
+  usePermissions,
+} from "expo-media-library";
 import { Image } from "expo-image";
 
 // Test images can be added to this array for quick gallery testing
@@ -13,23 +17,22 @@ const testImages = [
 
 export default function MediaLibrary() {
   const [assets, setAssets] = React.useState<Asset[]>([]);
+  const [permission, requestPermission] = usePermissions();
 
   React.useEffect(() => {
+    if (!permission || permission.status !== "granted") {
+      requestPermission();
+    }
     getAlbums();
-  }, []);
+  }, [permission]);
 
   async function getAlbums() {
-    const fetchedAlbums = await getAlbumsAsync({
-      includeSmartAlbums: true,
-    });
-
-    // Recents album
-    const albumAssets = await getAssetsAsync({
-      album: fetchedAlbums.find((album) => album.title === "Recents"),
+    const assetsResult = await getAssetsAsync({
       mediaType: "photo",
       sortBy: "creationTime",
+      first: 100,
     });
-    setAssets(albumAssets.assets);
+    setAssets(assetsResult.assets);
   }
 
   return (
