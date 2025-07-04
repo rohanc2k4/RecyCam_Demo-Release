@@ -20,19 +20,33 @@ export default function MediaLibrary() {
   const [permission, requestPermission] = usePermissions();
 
   React.useEffect(() => {
-    if (!permission || permission.status !== "granted") {
-      requestPermission();
-    }
-    getAlbums();
+    (async () => {
+      if (!permission || permission.status !== "granted") {
+        const response = await requestPermission();
+        if (!response.granted) {
+          return;
+        }
+      }
+      const allAssets = await fetchAllAssets();
+      setAssets(allAssets);
+    })();
   }, [permission]);
 
-  async function getAlbums() {
-    const assetsResult = await getAssetsAsync({
-      mediaType: "photo",
-      sortBy: "creationTime",
-      first: 100,
-    });
-    setAssets(assetsResult.assets);
+  async function fetchAllAssets() {
+    let after: string | undefined = undefined;
+    let loadedAssets: Asset[] = [];
+    do {
+      const result = await getAssetsAsync({
+        mediaType: "photo",
+        sortBy: "creationTime",
+        first: 100,
+        after,
+      });
+      loadedAssets = [...loadedAssets, ...result.assets];
+      after = result.endCursor ?? undefined;
+      if (!result.hasNextPage) break;
+    } while (true);
+    return loadedAssets;
   }
 
   return (

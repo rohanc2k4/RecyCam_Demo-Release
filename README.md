@@ -58,5 +58,6 @@ const response = await fetch("http://<your-ip>:5000/predict", {
 
 - On first launch you will be asked for camera, microphone and media library permissions—grant them so the demo can operate.
 - Press the camera button to capture a photo. After taking a picture you can upload it to the backend and view the predicted label.
+- Tap the gallery button to browse and select any photo on your device. You will be prompted for photo access permission if it hasn't been granted.
 
 Enjoy exploring this early version of **RecyCam**!
